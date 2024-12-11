@@ -1,0 +1,7 @@
+/env
+/config
+
+/logs/scheduler
+/logs/*
+/plugins
+/logs/
