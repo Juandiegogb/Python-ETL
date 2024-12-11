@@ -5,3 +5,8 @@
 /logs/*
 /plugins
 /logs/
+.env
+
+
+
+**/__pycache__
