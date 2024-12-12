@@ -1,5 +1,8 @@
 docker run --name mysql -v /mysql_data:/var/lib/mysql -e "MYSQL_ROOT_PASSWORD=123456" -p 3306:3306 -d mysql
 
+# Data source
+<https://www.kaggle.com/datasets/malaiarasugraj/global-health-statistics>
+
 Requirements
 
 - Install Postgresql
@@ -9,16 +12,16 @@ Requirements
 
 x-airflow-common:
 
-# In order to add custom dependencies or upgrade provider packages you can use your extended image.
+# In order to add custom dependencies or upgrade provider packages you can use your extended image
 
 # Comment the image line, place your Dockerfile in the directory where you placed the docker-compose.yaml
 
-# and uncomment the "build" line below, Then run `docker-compose build` to build the images.
+# and uncomment the "build" line below, Then run `docker-compose build` to build the images
 
 &airflow-common
 image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.10.3}
 
-# build: .
+# build:
 
 environment: &airflow-common-env
 AIRFLOW**CORE**EXECUTOR: CeleryExecutor
@@ -28,7 +31,7 @@ AIRFLOW**CELERY**BROKER_URL: redis://:@redis:6379/0
 AIRFLOW**CORE**FERNET_KEY: ''
 AIRFLOW**CORE**DAGS_ARE_PAUSED_AT_CREATION: 'true'
 AIRFLOW**CORE**LOAD_EXAMPLES: 'true'
-AIRFLOW**API**AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session' # yamllint disable rule:line-length # Use simple http server on scheduler for health checks # See https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/logging-monitoring/check-health.html#scheduler-health-check-server # yamllint enable rule:line-length
+AIRFLOW**API**AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session' # yamllint disable rule:line-length # Use simple http server on scheduler for health checks # See <https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/logging-monitoring/check-health.html#scheduler-health-check-server> # yamllint enable rule:line-length
 AIRFLOW**SCHEDULER**ENABLE_HEALTH_CHECK: 'true' # WARNING: Use \_PIP_ADDITIONAL_REQUIREMENTS option ONLY for a quick checks # for other purpose (development, test and especially production usage) build/extend Airflow image.
 \_PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
     # The following line can be used to set a custom config file, stored in the local config folder
@@ -61,7 +64,7 @@ retries: 5
 start_period: 5s
 restart: always
 
-redis: # Redis is limited to 7.2-bookworm due to licencing change # https://redis.io/blog/redis-adopts-dual-source-available-licensing/
+redis: # Redis is limited to 7.2-bookworm due to licencing change # <https://redis.io/blog/redis-adopts-dual-source-available-licensing/>
 image: redis:7.2-bookworm
 expose: - 6379
 healthcheck:
@@ -84,7 +87,7 @@ retries: 5
 start_period: 30s
 restart: always
 depends_on:
-<<: *airflow-common-depends-on
+<<:*airflow-common-depends-on
 airflow-init:
 condition: service_completed_successfully
 
@@ -99,7 +102,7 @@ retries: 5
 start_period: 30s
 restart: always
 depends_on:
-<<: *airflow-common-depends-on
+<<:*airflow-common-depends-on
 airflow-init:
 condition: service_completed_successfully
 
@@ -113,7 +116,7 @@ timeout: 10s
 retries: 5
 start_period: 30s
 environment:
-<<: *airflow-common-env # Required to handle warm shutdown of the celery workers properly # See https://airflow.apache.org/docs/docker-stack/entrypoint.html#signal-propagation
+<<:*airflow-common-env # Required to handle warm shutdown of the celery workers properly # See <https://airflow.apache.org/docs/docker-stack/entrypoint.html#signal-propagation>
 DUMB_INIT_SETSID: "0"
 restart: always
 depends_on:
@@ -132,7 +135,7 @@ retries: 5
 start_period: 30s
 restart: always
 depends_on:
-<<: *airflow-common-depends-on
+<<:*airflow-common-depends-on
 airflow-init:
 condition: service_completed_successfully
 
@@ -199,15 +202,15 @@ airflow-cli:
 <<: *airflow-common
 profiles: - debug
 environment:
-<<: *airflow-common-env
-CONNECTION_CHECK_MAX_COUNT: "0" # Workaround for entrypoint issue. See: https://github.com/apache/airflow/issues/16252
+<<:*airflow-common-env
+CONNECTION_CHECK_MAX_COUNT: "0" # Workaround for entrypoint issue. See: <https://github.com/apache/airflow/issues/16252>
 command: - bash - -c - airflow
 
 # You can enable flower by adding "--profile flower" option e.g. docker-compose --profile flower up
 
-# or by explicitly targeted on the command line e.g. docker-compose up flower.
+# or by explicitly targeted on the command line e.g. docker-compose up flower
 
-# See: https://docs.docker.com/compose/profiles/
+# See: <https://docs.docker.com/compose/profiles/>
 
 flower:
 <<: *airflow-common
@@ -222,7 +225,7 @@ retries: 5
 start_period: 30s
 restart: always
 depends_on:
-<<: *airflow-common-depends-on
+<<:*airflow-common-depends-on
 airflow-init:
 condition: service_completed_successfully
 

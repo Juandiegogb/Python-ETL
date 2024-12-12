@@ -1,12 +1,12 @@
 from sqlalchemy import create_engine
-from config import user, password, host, port, database
+from utils.config import *
 
-try:
 
-    engine = create_engine(
-        f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}"
-    )
-    with engine.connect() as connection:
-        print("DB connected")
-except Exception as e:
-    print("Error al conectar a la base de datos:", e)
+def DBconnet():
+    try:
+        engine = create_engine(
+            f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}"
+        )
+
+    except Exception as e:
+        print("Error al conectar a la base de datos:", e)
