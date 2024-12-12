@@ -1,28 +1,36 @@
 import psycopg2.extensions as psyTypes
 from utils.db import DBconnet
-import pandas as ps
+import pandas as pd
 from sqlalchemy.engine import Engine
+from sqlalchemy.exc import SQLAlchemyError
 
 
 engine = DBconnet()
 
 
-def extract(engine: Engine) -> None:
-
+def extract(engine: Engine) -> pd.DataFrame:
     try:
         connection = engine.connect()
-    except Exception as e:
-        print(e)
+    except SQLAlchemyError as e:
+        print(f"Database connection error: {e}")
         raise
 
     query = "SELECT * FROM public.global_health_statistics"
 
-    df = ps.read_sql_query(query, connection)
-    # print(dataframe.head())
-    df.info()
-    print(df.head())
-    print("Done")
-    connection.close()
+    try:
+        df = pd.read_sql_query(query, connection)
+        print("Data extracted successfully.")
+        df.info()
+        return df
+    except Exception as e:
+        print(f"Error executing query: {e}")
+        raise
+    finally:
+        connection.close()
 
 
-extract(engine)
+def main():
+    df = extract(engine)
+
+if __name__ == "__main__":
+    main()
