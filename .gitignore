@@ -13,3 +13,4 @@
 
 *.csv
 .vscode
+/postgres_data
