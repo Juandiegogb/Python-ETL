@@ -62,6 +62,14 @@ def test3():
     df.to_csv("./processed_data/numpy.csv")
 
 
-test()
-test2()
-test3()
+def dataset():
+    df = pd.read_csv("ModalidadVirtual.csv")
+    print(df["carrera"][1])
+    filter_age = df["edad"] == 21
+    df_filtered_age = df[filter_age]
+    print(df_filtered_age.head(2))
+
+    
+
+
+dataset()
