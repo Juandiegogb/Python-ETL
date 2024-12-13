@@ -11,3 +11,21 @@ services:
     volumes:
       - "./postgres_data:/var/lib/postgresql/data"
     restart: always
+
+  pythonETL:
+    container_name: etl
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: py
+    depends_on:
+      - postgres
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=123456
+      - DB_NAME=DW
+    volumes:
+      - "./processed_data:/processed_data"
+    command: ["python", "./src/etl.py"]
