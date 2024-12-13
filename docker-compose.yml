@@ -27,5 +27,9 @@ services:
       - DB_PASSWORD=123456
       - DB_NAME=postgres
     volumes:
-      - "./processed_data:/processed_data"
+      - "./processed_data:/etl/processed_data"
     command: ["python", "./src/etl.py"]
+
+volumes:
+  processed_data:
+    driver: local
