@@ -1,2 +1,5 @@
 /postgres_data
 /env
+*.csv
+/processed_data
+.env

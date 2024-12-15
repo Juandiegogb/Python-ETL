@@ -34,14 +34,6 @@ def extract(engine: Engine) -> pd.DataFrame:
         connection.close()
 
 
-def extractCSV() -> pd.DataFrame:
-    df = pd.read_csv("transactions.csv")
-    saveFile(df.head(5), "head")
-    df.info()
-    description_df = df.describe()
-    return description_df
-
-
 def transform(df: DataFrame):
     # print(filtered_countries.head())
     country_counts = df.groupby("Country").size().reset_index(name="Record Count")
@@ -74,10 +66,8 @@ def transform(df: DataFrame):
 
 
 def main():
-    df = extractCSV()
-    print(df)
-    # df = extract(engine)
-    # transform(df)
+    df = extract(engine)
+    transform(df)
 
 
 main()
