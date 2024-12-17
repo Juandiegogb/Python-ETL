@@ -1,10 +1,7 @@
 from utils.config import user, password, port, database, host
 from sqlalchemy import create_engine
 from sqlalchemy import Connection
-from typing import Literal
-
-
-serverOptions = Literal["postgres", "mysql", "oracle", "mssql"]
+from utils.entities import serverOptions
 
 
 class DB:

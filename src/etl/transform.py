@@ -1,4 +1,5 @@
 from pandas import DataFrame
+from utils.entities import ProcessedDf
 
 
 class Transform:
@@ -13,3 +14,9 @@ class Transform:
         df.info()
         print(df.shape)
         print(df.describe())
+
+    def transformData(self) -> list[ProcessedDf]:
+        df = self.df
+        DfArray: list[ProcessedDf]
+        DfArray.append(ProcessedDf(df.describe(), "description"))
+        return DfArray

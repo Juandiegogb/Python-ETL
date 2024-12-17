@@ -1,12 +1,14 @@
 from utils.db import DB
 from etl.extract import Extract
 from etl.transform import Transform
+from etl.load import Load
 
 
 def main():
     print("ETL started")
-    newDB = DB("mssql")
-    connection = newDB.connect()
+    originDB = DB("mssql")
+    originConnection = originDB.connect()
+
     query = """
     SELECT DISTINCT
 	COALESCE(InstalacionPrestador8.Descripcion,InstalacionPrestador7.Descripcion,InstalacionPrestador6.Descripcion,InstalacionPrestador5.Descripcion,InstalacionPrestador4.Descripcion,InstalacionPrestador3.Descripcion,InstalacionPrestador2.Descripcion,InstalacionPrestador1.Descripcion) AS Sucursal
@@ -58,10 +60,16 @@ LEFT JOIN Contrato ON ContratoPlan.Contrato = Contrato.ID
 LEFT JOIN Pagador ON Contrato.Pagador = Pagador.ID
 LEFT JOIN Tarifario ON ContratoPlan.Tarifario = Tarifario.ID    
     """
-    newExtraction = Extract(connection, query)
+    newExtraction = Extract(originConnection, query)
     df = newExtraction.getDataframe()
+
     newTransform = Transform(df)
     newTransform.exploreData()
+    transformedDataframes = newTransform.transformData()
+
+    destinyDB = DB("postgres")
+    destinyConnection = destinyDB.connect()
+    newLoad = Load(destinyConnection, transformedDataframes)
 
 
 main()
