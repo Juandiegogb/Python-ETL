@@ -1,4 +1,4 @@
-from typing import Literal, NamedTuple
+from typing import NamedTuple, TypedDict
 from pandas import DataFrame
 
 
@@ -7,4 +7,10 @@ class ProcessedDf(NamedTuple):
     destinyTableName: str
 
 
-serverOptions = Literal["postgres", "mysql", "oracle", "mssql"]
+class DBConfig(TypedDict):
+    host: str
+    port: int
+    user: str
+    password: str
+    database: str
+    engine: str

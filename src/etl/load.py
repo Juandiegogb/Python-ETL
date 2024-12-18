@@ -7,4 +7,11 @@ class Load:
         for i in dataframes:
             df = i.dataframe
             tableName = i.destinyTableName
-            df.to_sql(tableName, connection)
+
+            try:
+                df.to_sql(tableName, connection, if_exists="replace", index=False)
+            except Exception as e:
+                print("Error loading data to destiny database")
+                raise
+        connection.close()
+        print("Data loaded successfully")

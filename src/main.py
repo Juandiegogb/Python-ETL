@@ -6,7 +6,7 @@ from etl.load import Load
 
 def main():
     print("ETL started")
-    originDB = DB("postgres")
+    originDB = DB("DB_ORIGIN")
     originConnection = originDB.connect()
     query = "SELECT * FROM public.global_health_statistics"
     newExtraction = Extract(originConnection, query)
@@ -16,7 +16,7 @@ def main():
     newTransform.exploreData()
     transformedDataframes = newTransform.transformData()
 
-    destinyDB = DB("postgres")
+    destinyDB = DB("DB_DESTINY")
     destinyConnection = destinyDB.connect()
     newLoad = Load(destinyConnection, transformedDataframes)
 
