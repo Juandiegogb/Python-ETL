@@ -17,6 +17,6 @@ class Transform:
 
     def transformData(self) -> list[ProcessedDf]:
         df = self.df
-        DfArray: list[ProcessedDf]
+        DfArray: list[ProcessedDf] = []
         DfArray.append(ProcessedDf(df.describe(), "description"))
         return DfArray
