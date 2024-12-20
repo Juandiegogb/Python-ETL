@@ -12,24 +12,12 @@ services:
       - "./postgres_data:/var/lib/postgresql/data"
     restart: always
 
-  pythonETL:
-    container_name: etl
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: py
-    depends_on:
-      - postgres
+  mysql:
+    container_name: mysql
+    image: mysql
     environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=123456
-      - DB_NAME=postgres
+      - MYSQL_ROOT_PASSWORD=123456
+    ports:
+      - 3306:3306
     volumes:
-      - "./processed_data:/etl/processed_data"
-    command: ["python", "./src/etl.py"]
-
-volumes:
-  processed_data:
-    driver: local
+      - "./mysql_data:/var/lib/mysql"
