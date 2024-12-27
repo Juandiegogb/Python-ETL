@@ -15,4 +15,8 @@ def main():
     destinyDB = DB("DB_DESTINY", False)
     destinyDB.load(transformedDataframes)
 
-main()
+
+
+
+# main()
+print("hola")
