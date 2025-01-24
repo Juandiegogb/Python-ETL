@@ -14,7 +14,7 @@
 
 
 
-*.csv
+
 /.vscode
 /postgres_data
 /mysql_data

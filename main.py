@@ -18,13 +18,13 @@ origin_db = get_url("ORIGIN_DB")
 stage_db = get_url("TEST_BI")
 
 
-with open("tables.txt", "r", encoding="UTF-8") as file:
+with open("tables.csv", "r", encoding="UTF-8") as file:
     data = set(file.readlines())
 
     not_found_col = []
 
     for row in data:
-        name = row[0]
+        name = row[0].strip()
         columns = [col for col in row[1].strip().split(" ") if col]
 
         if columns:
