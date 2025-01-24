@@ -29,7 +29,7 @@ with open("tables.csv", "r", encoding="UTF-8") as file:
 
         if columns:
             try:
-                dataframe = spark.read.jdbc(origin_db, name, numPartitions=10).select(
+                dataframe = spark.read.jdbc(origin_db, name).select(
                     columns
                 )
             except AnalysisException as e:
